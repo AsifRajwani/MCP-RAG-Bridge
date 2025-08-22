@@ -1,6 +1,7 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import fetch from "node-fetch";
+import { z } from "zod";
 
 const RAG_BASE = process.env.RAG_BASE || "http://localhost:4100";
 
@@ -14,16 +15,16 @@ async function start() {
   server.tool(
     "rag_ingest",
     {
-      type: "object",
-      properties: { clear: { type: "boolean", description: "If true, clears and rebuilds the index" } },
-      required: [],
-      additionalProperties: false
+      description: "Rebuild the index, optionally clearing first",
+      parameters: z.object({
+        clear: z.boolean().optional().describe("If true, clears and rebuilds the index"),
+      }),
     },
     async ({ clear }) => {
       const resp = await fetch(`${RAG_BASE}/ingest`, {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ clear: !!clear })
+        body: JSON.stringify({ clear: !!clear }),
       });
       const json = await resp.json();
       return { content: [{ type: "text", text: JSON.stringify(json, null, 2) }] };
@@ -34,20 +35,19 @@ async function start() {
   server.tool(
     "rag_search",
     {
-      type: "object",
-      properties: {
-        query: { type: "string", description: "Natural language query" },
-        k: { type: "integer", minimum: 1, maximum: 10, description: "Top k passages (default 4)" },
-        filter: { type: "string", description: "Optional keyword to bias search (e.g., product)" }
-      },
-      required: ["query"],
-      additionalProperties: false
+      description: "Search the knowledge base",
+      parameters: z.object({
+        query: z.string().describe("Natural language query"),
+        k: z.number().min(1).max(10).default(4).describe("Top k passages (default 4)"),
+        filter: z.string().optional().describe("Optional keyword to bias search (e.g., product)"),
+      }),
     },
     async ({ query, k, filter }) => {
       const url = new URL(`${RAG_BASE}/search`);
-      url.searchParams.set("query", String(query));
-      if (k) url.searchParams.set("k", String(k));
-      if (filter) url.searchParams.set("filter", String(filter));
+      url.searchParams.set("query", query);
+      url.searchParams.set("k", String(k));
+      if (filter) url.searchParams.set("filter", filter);
+
       const resp = await fetch(url.toString());
       const json = await resp.json();
       return { content: [{ type: "text", text: JSON.stringify(json, null, 2) }] };
@@ -57,7 +57,10 @@ async function start() {
   // Health
   server.tool(
     "rag_health",
-    { type: "object", properties: {}, required: [] },
+    {
+      description: "Check if RAG service is healthy",
+      parameters: z.object({}),
+    },
     async () => {
       const resp = await fetch(`${RAG_BASE}/health`);
       const json = await resp.json();
@@ -74,3 +77,4 @@ start().catch((e) => {
   console.error("RAG MCP bridge failed:", e);
   process.exit(1);
 });
+
