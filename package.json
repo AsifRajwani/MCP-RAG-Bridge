@@ -1,0 +1,27 @@
+{
+  "name": "ts-masterclass-node",
+  "version": "1.0.0",
+  "description": "Typescript NodeJS Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc -w",
+    "start": "node dist/rag-mcp-bridge.js",
+    "start:dev": "nodemon dist/rag-mcp-bridge.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.17.3",
+    "csv-parser": "^3.2.0",
+    "express": "^5.0.1",
+    "typescript": "^5.7.3",
+    "node-fetch": "^3.3.2"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.13.4",
+    "nodemon": "^3.1.9",
+    "ts-node": "^10.9.2"
+  }
+}
