@@ -14,7 +14,10 @@ async function start() {
   // Test tool for verifying input schema and MCP setup
   server.tool(
     "test_tool",
-    { foo: z.string() },  // Pass plain object with z validators
+    {
+      description: "A simple test tool to verify the connection and input schema.",
+      foo: z.string()
+    },
     async ({ foo }) => {
       return {
         content: [{ type: "text", text: `Test tool received input: ${foo}` }],
@@ -25,7 +28,10 @@ async function start() {
   // Trigger re/ingestion
   server.tool(
     "rag_ingest",
-    { clear: z.boolean().optional() },  // Plain object shape
+    {
+      description: "Ingests or re-ingests documents into the RAG knowledge base. Use 'clear: true' to delete existing data before ingestion.",
+      clear: z.boolean().optional()
+    },
     async (args) => {
       try {
         console.error("rag_ingest called with args:", JSON.stringify(args));
@@ -54,7 +60,8 @@ async function start() {
   // Search the KB
   server.tool(
     "rag_search",
-    {  // Plain object shape with Zod validators
+    {
+      description: "Searches the RAG knowledge base for information relevant to a given query. Returns a summary of the most relevant documents.",
       query: z.string(),
       k: z.number().min(1).max(10).default(4),
       filter: z.string().optional(),
@@ -84,7 +91,9 @@ async function start() {
   // Health
   server.tool(
     "rag_health",
-    {},  // Empty plain object for no input
+    {
+      description: "Performs a health check on the RAG server to ensure it is running and accessible.",
+    },
     async () => {
       try {
         const resp = await fetch(`${RAG_BASE}/health`);
