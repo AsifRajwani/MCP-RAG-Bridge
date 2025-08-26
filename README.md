@@ -5,7 +5,7 @@
 1.  **Clone the repository:** Clone the GitHub repository to your local machine using the command:
 
     ```bash
-    git clone https://github.com/AsifRajwani/MCP-Server.git
+    git clone https://github.com/AsifRajwani/MCP-RAG-Bridge.git
     ```
 
 2.  **Navigate to the directory:** Change your current directory to the project folder:
