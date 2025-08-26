@@ -11,7 +11,7 @@
 2.  **Navigate to the directory:** Change your current directory to the project folder:
 
     ```bash
-    cd MCP-Server
+    cd MCP-RAG-Bridge
     ```
 
 3.  **Install dependencies:** Install all the required packages by running:
