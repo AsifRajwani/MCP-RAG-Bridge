@@ -1,3 +1,9 @@
+## Dependency
+
+This project relies on the REST API provided by the RAG Service: [https://github.com/AsifRajwani/RAG-service](https://github.com/AsifRajwani/RAG-service).
+
+**Important:** Ensure that the RAG Service is running and that documents have been ingested before using this bridge.
+
 # How to Run and Test the MCP Server
 
 # Requirements
