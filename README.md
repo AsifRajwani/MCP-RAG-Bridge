@@ -15,6 +15,8 @@ Together, these components demonstrate how an AI Agent can orchestrate across mu
 👉 This repo is one of several components that make up the full demo.
 👉 The attached [PDF Guide](https://github.com/AsifRajwani/MCP-Server/blob/main/AI%20Agent%20MCP%20Demo.pdf) details all the setup required to run all components locally on your personal computer.
 
+## Dependency
+
 This project relies on the REST API provided by the RAG Service: [https://github.com/AsifRajwani/RAG-service](https://github.com/AsifRajwani/RAG-service).
 
 **Important:** Ensure that the RAG Service is running and that documents have been ingested before using this bridge.
