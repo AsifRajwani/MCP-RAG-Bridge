@@ -1,4 +1,4 @@
-# MCP-RAG-BRIDGE
+# MCP-RAG-Bridge
 
 📌 **Demo Overview**
 
